@@ -1,0 +1,18 @@
+<!-- store/templates/store/cart_detail.html -->
+<h1>Your Shopping Cart</h1>
+<ul>
+{% for item in cart.cartitem_set.all %}
+    <li>
+        {{ item.quantity }} x {{ item.product.name }} - ${{ item.product.price }}
+        <form method="post" action="{% url 'update_cart' item.pk %}">
+            {% csrf_token %}
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="0">
+            <button type="submit">Update</button>
+        </form>
+        <form method="post" action="{% url 'remove_from_cart' item.pk %}">
+            {% csrf_token %}
+            <button type="submit">Remove</button>
+        </form>
+    </li>
+{% endfor %}
+</ul>
